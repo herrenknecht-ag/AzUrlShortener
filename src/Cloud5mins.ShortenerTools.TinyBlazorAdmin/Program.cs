@@ -21,8 +21,7 @@ builder.Services.AddScoped(sp =>
 	}
 	else
 	{
-		// Log a message if function key is empty or not set
-		Console.WriteLine("WARNING: Azure Function key is empty or not set.");
+		httpClient.DefaultRequestHeaders.Add("x-functions-key", "emptykey");
 	}
 	return httpClient;
 });
