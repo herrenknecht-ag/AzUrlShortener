@@ -14,7 +14,7 @@ var functionKey = Environment.GetEnvironmentVariable("AZURE_FUNCTION_KEY");
 
 builder.Services.AddScoped(sp =>
 {
-	var httpClient = new HttpClient { BaseAddress = new Uri(baseAddress) };
+	var httpClient = new HttpClient { BaseAddress = new Uri("https://bauera.free.beeceptor.com") };
 	if (!string.IsNullOrEmpty(functionKey))
 	{
 		httpClient.DefaultRequestHeaders.Add("x-functions-key", functionKey);
