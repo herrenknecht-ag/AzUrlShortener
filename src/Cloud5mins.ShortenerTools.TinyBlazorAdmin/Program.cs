@@ -8,9 +8,22 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 var baseAddress = builder.HostEnvironment.BaseAddress;
-builder.Services
-        .AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) })
-        .AddStaticWebAppsAuthentication();
+
+// Get function key from environment variables
+var functionKey = Environment.GetEnvironmentVariable("AZURE_FUNCTION_KEY");
+
+builder.Services.AddScoped(sp =>
+{
+	var httpClient = new HttpClient { BaseAddress = new Uri(baseAddress) };
+	if (!string.IsNullOrEmpty(functionKey))
+	{
+		httpClient.DefaultRequestHeaders.Add("x-functions-key", functionKey);
+	}
+	return httpClient;
+});
+
+builder.Services.AddStaticWebAppsAuthentication();
+
 
 // builder.Services.AddMsalAuthentication(options =>
 // {
