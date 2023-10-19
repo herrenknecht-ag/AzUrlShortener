@@ -9,8 +9,10 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 var baseAddress = builder.HostEnvironment.BaseAddress;
 
-// Get function key from environment variables
-var functionKey = Environment.GetEnvironmentVariable("AZURE_FUNCTION_KEY");
+var configuration = new ConfigurationBuilder()
+	.Build();
+
+var functionKey = configuration["AZURE_FUNCTION_KEY"];
 
 builder.Services.AddScoped(sp =>
 {
